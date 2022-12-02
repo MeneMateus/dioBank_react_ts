@@ -7,7 +7,7 @@ interface IButton {
     onClick: MouseEventHandler
 }
 
-export const ButtonDiv = ({texto,theme,onClick}: IButton): any => {
+export const ButtonDiv = ({texto,theme,onClick}: IButton) => {
     return(<>
     <Button onClick={onClick} colorScheme={theme} size='sm' width='100%'>{texto}</Button>
     </>

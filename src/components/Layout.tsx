@@ -1,12 +1,11 @@
-import { Footer } from "./Footer"
-import { Header } from "./Header/Header"
+import { Box } from "@chakra-ui/react";
+import { Header } from "./Header";
 
 export const Layout = ({ children }: any) => {
-    return (
-        <>
-            <Header />
-            {children}
-            <Footer />
-        </>
-    )
-}
+  return (
+    <Box>
+      <Header />
+      {children}
+    </Box>
+  );
+};
