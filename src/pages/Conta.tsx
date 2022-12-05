@@ -1,6 +1,6 @@
-import { Box, Center, SimpleGrid, Spinner } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { Box, Center, SimpleGrid, Spinner,Text } from "@chakra-ui/react";
+import { useContext, useEffect } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { api } from "../api";
 import { AppContext } from "../components/AppContext";
 import CardInfo from "../components/CardInfo";
@@ -14,11 +14,10 @@ interface UserData {
 }
 
 const Conta = () => {
-  const [userData, setUserData] = useState<null | UserData>();
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { isLoggedIn } = useContext(AppContext);
+  const { isLoggedIn, setUserData,isUserData } = useContext(AppContext);
 
 
   !isLoggedIn && navigate('/')
@@ -30,13 +29,13 @@ const Conta = () => {
     };
 
     getData();
-  }, []);
+  }, [setUserData]);
 
   const nowData = new Date();
 
   
 
-  if (userData && id !== userData.id ) {
+  if (isUserData && id !== isUserData.id ) {
     navigate("/");
   }
 
@@ -44,7 +43,7 @@ const Conta = () => {
     <Box backgroundColor="purple" minHeight={"100vh"}>
       <Center>
         <SimpleGrid columns={2} spacing={8} paddingTop={16}>
-          {userData === undefined || userData === null ? (
+          {isUserData.name === undefined || isUserData === null ? (
             <Center>
               <Spinner size="xl" color="white"></Spinner>
             </Center>
@@ -52,12 +51,15 @@ const Conta = () => {
             <>
               <CardInfo
                 content={`${nowData.getDay()} / ${nowData.getMonth()} / ${nowData.getFullYear()} ${nowData.getHours()}:${nowData.getMinutes()}`}
-                mainContent={`Bem vindo(a) ${userData?.name}!`}
+                mainContent={`Bem vindo(a) ${isUserData?.name}!`}
               />
               <CardInfo
-                content={`R$: ${userData?.balance}`}
+                content={`R$: ${isUserData?.balance}`}
                 mainContent={`Saldo: `}
               />
+              <Text>
+            Informações da conta <Link to='/user/'>Clique aqui</Link>
+        </Text>
             </>
           )}
         </SimpleGrid>

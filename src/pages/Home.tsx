@@ -14,9 +14,8 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AppContext } from "../components/AppContext";
 import { ButtonDiv } from "../components/Button";
 import { Card } from "../components/Card";
 import { login } from "../services/login";
@@ -28,9 +27,9 @@ const Home = () => {
 
 
   const [email, setEmail] = useState("");
-  const {setIsLoggedIn} = useContext(AppContext)
+  const [password, setPassword] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
+
   const OverlayOne = () => (
     <ModalOverlay bg="blackAlpha.300" backdropFilter="none" />
   );
@@ -44,11 +43,10 @@ const Home = () => {
     }
   }, [navigate, storage])
 
-  const validateUser = async (email:string)=> {
-    const loggedIn = await login(email)
-    if(!loggedIn)return alert('Email inválido')
-    setIsLoggedIn(loggedIn)
-    changeLocalStorage({login: true})
+  const validateUser = async (email:string,password: string)=> {
+    const isLoggedIn = await login(email,password)
+    if(!isLoggedIn)return alert('Email inválido')
+    changeLocalStorage(({login: true}))
     navigate('conta/1')
   }
 
@@ -75,10 +73,10 @@ const Home = () => {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
-          <Input placeholder="Senha" />
+          <Input placeholder="Senha" type={'password'} value={password} onChange={(event) => setPassword(event.target.value)}/>
           <Center>
             <ButtonDiv
-              onClick={() => validateUser(email)}
+              onClick={() => validateUser(email,password)}
               theme="teal"
               texto="Entrar"
             />
