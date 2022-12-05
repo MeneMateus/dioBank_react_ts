@@ -9,7 +9,7 @@ const User = () => {
     const { isLoggedIn, isUserData } = useContext(AppContext);
     const navigate = useNavigate();
 
-    if (!isLoggedIn && !isUserData) {
+    if (!isLoggedIn || !isUserData) {
         navigate("/");
       }
 
